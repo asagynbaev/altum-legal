@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Altum Legal — дизайн-токены.
+   Цвета и типографика взяты напрямую из фирменного стиля компании.
+   ========================================================================== */
+
+:root {
+  /* --- фирменная палитра --- */
+  --ink: #1e1e1e;
+  --ink-warm: #2f2b27;
+  --ink-deep: #151312;
+  --cream: #f4f1ec;
+  --cream-shade: #ebe6dd;
+  --wine: #5b0f1a;
+  --wine-lift: #75182a;
+  --gold: #b08b5a;
+  --gold-lift: #cfae80;
+  --gold-deep: #8a6a3f;
+
+  /* --- производные: текст на тёмном --- */
+  --on-dark: #f4f1ec;
+  --on-dark-soft: rgba(244, 241, 236, 0.66);
+  --on-dark-faint: rgba(244, 241, 236, 0.4);
+  --rule-dark: rgba(176, 139, 90, 0.24);
+  --rule-dark-soft: rgba(244, 241, 236, 0.11);
+
+  /* --- производные: текст на светлом --- */
+  --on-light: #221f1c;
+  --on-light-soft: rgba(34, 31, 28, 0.66);
+  --on-light-faint: rgba(34, 31, 28, 0.42);
+  --rule-light: rgba(34, 31, 28, 0.14);
+  --rule-gold-light: rgba(176, 139, 90, 0.45);
+
+  /* --- шрифты --- */
+  --font-display: 'Cormorant Garamond', 'Times New Roman', serif;
+  --font-text: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+
+  /* --- шкала кегля (fluid) --- */
+  --fs-display: clamp(2.75rem, 1.35rem + 5.1vw, 5.6rem);
+  --fs-h1: clamp(2.35rem, 1.35rem + 4.1vw, 4.9rem);
+  --fs-h2: clamp(1.9rem, 1.35rem + 2.1vw, 3.05rem);
+  --fs-h3: clamp(1.28rem, 1.1rem + 0.72vw, 1.65rem);
+  --fs-lead: clamp(1.06rem, 0.98rem + 0.36vw, 1.32rem);
+  --fs-body: clamp(0.95rem, 0.92rem + 0.14vw, 1.03rem);
+  --fs-small: 0.875rem;
+  --fs-label: 0.688rem;
+
+  /* --- ритм --- */
+  --shell: 1320px;
+  --gutter: clamp(1.25rem, 0.4rem + 3.4vw, 4.5rem);
+  --section-y: clamp(5rem, 2.5rem + 8vw, 10.5rem);
+  --stack: clamp(2.75rem, 1.6rem + 3.4vw, 5rem);
+
+  /* --- движение --- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 220ms;
+  --dur: 420ms;
+  --dur-slow: 760ms;
+
+  --header-h: 84px;
+}
+
+@media (max-width: 860px) {
+  :root {
+    --header-h: 68px;
+  }
+}
