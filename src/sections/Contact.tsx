@@ -11,13 +11,14 @@ import {
 } from '../components/Icons'
 import { company, formTopics } from '../data/content'
 
-type Errors = Partial<Record<'name' | 'phone', string>>
+type Errors = Partial<Record<'name' | 'phone' | 'email', string>>
 /** как ушла заявка: через сервис отправки или через почтовый клиент */
 type SentVia = 'form' | 'mail'
 
 const initial = {
   name: '',
   phone: '',
+  email: '',
   topic: formTopics[0] as string,
   message: '',
   /** ловушка для ботов: люди это поле не видят и не заполняют */
@@ -40,6 +41,8 @@ export function Contact() {
     if (form.name.trim().length < 2) next.name = 'Укажите, как к вам обращаться'
     const digits = form.phone.replace(/\D/g, '')
     if (digits.length < 9) next.phone = 'Введите номер телефона для связи'
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+      next.email = 'Укажите почту, на которую ответить'
     return next
   }
 
@@ -50,6 +53,7 @@ export function Contact() {
       'Заявка с сайта Altum Legal',
       `Имя: ${form.name.trim()}`,
       `Телефон: ${form.phone.trim()}`,
+      `Почта: ${form.email.trim()}`,
       `Тема: ${form.topic}`,
       form.message.trim() && `Вопрос: ${form.message.trim()}`,
     ]
@@ -85,8 +89,11 @@ export function Contact() {
           _subject: subject(),
           _template: 'table',
           _captcha: 'false',
+          // ответ из почты уйдёт заявителю, а не на адрес сервиса
+          _replyto: form.email.trim(),
           Имя: form.name.trim(),
           Телефон: form.phone.trim(),
+          Почта: form.email.trim(),
           Тема: form.topic,
           Вопрос: form.message.trim() || '—',
         }),
@@ -167,8 +174,8 @@ export function Contact() {
                 <p className="contact__form-note">
                   {sentVia === 'form' ? (
                     <>
-                      Спасибо! Юрист свяжется с вами в рабочее время. Если вопрос
-                      срочный — напишите нам на {company.email}.
+                      Спасибо! Ответим на {form.email.trim()} в рабочее время.
+                      Если вопрос срочный — напишите нам на {company.email}.
                     </>
                   ) : (
                     <>
@@ -233,6 +240,24 @@ export function Contact() {
                     )}
                   </label>
                 </div>
+
+                <label className={`field${errors.email ? ' field--invalid' : ''}`}>
+                  <input
+                    className="field__input"
+                    type="email"
+                    name="email"
+                    placeholder=" "
+                    autoComplete="email"
+                    inputMode="email"
+                    value={form.email}
+                    onChange={(e) => set('email', e.target.value)}
+                    aria-invalid={Boolean(errors.email)}
+                  />
+                  <span className="field__label">Электронная почта</span>
+                  {errors.email && (
+                    <span className="field__error">{errors.email}</span>
+                  )}
+                </label>
 
                 <label className="field field--filled">
                   <select
