@@ -41,11 +41,7 @@ export function About() {
             {about.cards.map((card) => (
               <article className="about__card" key={card.key}>
                 <span className="overline overline--plain">{card.title}</span>
-                <h3>
-                  {card.key === 'mission'
-                    ? 'Безопасная правовая среда'
-                    : 'Один из лидеров Центральной Азии'}
-                </h3>
+                <h3>{card.heading}</h3>
                 <p>{card.text}</p>
               </article>
             ))}

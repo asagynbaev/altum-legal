@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { IconArrow } from '../components/Icons'
-import { company, heroStats } from '../data/content'
+import { company } from '../data/content'
 
 const TITLE_LINES = [
-  <>Юридические решения</>,
+  <>Правовая поддержка</>,
   <>
-    для <em>уверенного</em>
-  </>,
-  <>
-    <em>развития</em> бизнеса
+    <em>вашего</em> бизнеса
   </>,
 ]
 
@@ -75,11 +72,6 @@ export function Hero() {
             ))}
           </h1>
 
-          <p className="hero__lead hero__anim" style={anim(560)}>
-            Команда бизнес-юристов с 10+ лет практики. Сопровождаем компании от
-            регистрации до защиты интересов в суде.
-          </p>
-
           <div className="hero__actions hero__anim" style={anim(660)}>
             <a className="btn" href="#contact">
               Получить консультацию
@@ -88,25 +80,6 @@ export function Hero() {
             <a className="btn btn--ghost" href="#services">
               Услуги и стоимость
             </a>
-          </div>
-        </div>
-
-        <div className="hero__foot hero__anim" style={anim(820)}>
-          <ul className="hero__stats">
-            {heroStats.map((stat) => (
-              <li
-                key={stat.label}
-                className={`hero__stat${'wide' in stat && stat.wide ? ' hero__stat--wide' : ''}`}
-              >
-                <span className="hero__stat-value">{stat.value}</span>
-                <span className="hero__stat-label">{stat.label}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="hero__scroll" aria-hidden="true">
-            <span>Листайте</span>
-            <span className="hero__scroll-track" />
           </div>
         </div>
       </div>

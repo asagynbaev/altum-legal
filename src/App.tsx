@@ -9,7 +9,6 @@ import { Values } from './sections/Values'
 import { Pricing } from './sections/Pricing'
 import { Contact } from './sections/Contact'
 import { Footer } from './sections/Footer'
-import { FloatingWhatsApp } from './components/FloatingWhatsApp'
 
 export default function App() {
   return (
@@ -33,7 +32,6 @@ export default function App() {
       </main>
 
       <Footer />
-      <FloatingWhatsApp />
       <div className="grain" aria-hidden="true" />
     </>
   )

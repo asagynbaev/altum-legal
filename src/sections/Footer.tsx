@@ -51,19 +51,7 @@ export function Footer() {
               <h3 className="footer__col-title">Контакты</h3>
               <ul>
                 <li>
-                  <a href={`tel:+${company.phoneRaw}`}>{company.phone}</a>
-                </li>
-                <li>
                   <a href={`mailto:${company.email}`}>{company.email}</a>
-                </li>
-                <li>
-                  <a
-                    href={`https://wa.me/${company.phoneRaw}`}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    WhatsApp
-                  </a>
                 </li>
                 <li>
                   <span>{company.workingHours}</span>

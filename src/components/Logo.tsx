@@ -21,9 +21,9 @@ export function Logo({ withTagline = true, onClick }: Props) {
         <span className="logo__word">ALTUM LEGAL</span>
         {withTagline && (
           <span className="logo__tagline">
-            Юридические решения
+            Правовая поддержка
             <br />
-            для развития бизнеса
+            вашего бизнеса
           </span>
         )}
       </span>

@@ -7,9 +7,7 @@ import {
   IconChevron,
   IconClock,
   IconMail,
-  IconPhone,
   IconPin,
-  IconWhatsApp,
 } from '../components/Icons'
 import { company, formTopics } from '../data/content'
 
@@ -57,18 +55,6 @@ export function Contact() {
     setErrors(found)
     if (Object.keys(found).length) return
 
-    window.open(
-      `https://wa.me/${company.phoneRaw}?text=${encodeURIComponent(composeText())}`,
-      '_blank',
-      'noopener,noreferrer',
-    )
-    setSent(true)
-  }
-
-  const sendByMail = () => {
-    const found = validate()
-    setErrors(found)
-    if (Object.keys(found).length) return
     window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(
       `Заявка с сайта — ${form.topic}`,
     )}&body=${encodeURIComponent(composeText())}`
@@ -95,14 +81,6 @@ export function Contact() {
         <div className="contact__layout">
           <div>
             <div className="contact__lines">
-              <a className="contact__line" href={`tel:+${company.phoneRaw}`}>
-                <IconPhone className="icon-line contact__icon" />
-                <span>
-                  <span className="contact__line-label">Телефон</span>
-                  <span className="contact__line-value">{company.phone}</span>
-                </span>
-              </a>
-
               <a className="contact__line" href={`mailto:${company.email}`}>
                 <IconMail className="icon-line contact__icon" />
                 <span>
@@ -131,17 +109,8 @@ export function Contact() {
             </div>
 
             <div className="contact__cta">
-              <a
-                className="btn"
-                href={`https://wa.me/${company.phoneRaw}`}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <IconWhatsApp width={16} height={16} />
-                Написать в WhatsApp
-              </a>
-              <a className="btn btn--ghost" href={`tel:+${company.phoneRaw}`}>
-                Позвонить
+              <a className="btn btn--ghost" href={`mailto:${company.email}`}>
+                Написать на почту
               </a>
             </div>
           </div>
@@ -152,9 +121,9 @@ export function Contact() {
                 <IconCheckSeal className="icon-line contact__sent-mark" />
                 <h3 className="contact__form-title">Заявка сформирована</h3>
                 <p className="contact__form-note">
-                  Мы открыли окно отправки. Если оно не появилось — напишите нам
-                  напрямую на {company.email} или позвоните по номеру{' '}
-                  {company.phone}.
+                  Мы открыли окно вашего почтового клиента с готовым письмом.
+                  Если оно не появилось — напишите нам напрямую на{' '}
+                  {company.email}.
                 </p>
                 <button
                   type="button"
@@ -242,17 +211,14 @@ export function Contact() {
                 </label>
 
                 <button className="btn btn--block" type="submit">
-                  Отправить в WhatsApp
+                  Отправить заявку
                   <IconArrow className="icon-line btn__arrow" />
                 </button>
 
                 <p className="contact__form-note">
-                  Заявка уходит напрямую юристу в WhatsApp. Предпочитаете почту —{' '}
-                  <button type="button" className="text-link" onClick={sendByMail}>
-                    отправьте письмом
-                  </button>
-                  . Нажимая кнопку, вы соглашаетесь на обработку указанных данных
-                  для ответа на обращение. Всё, что вы расскажете,
+                  Заявка уходит письмом на {company.email} через ваш почтовый
+                  клиент. Нажимая кнопку, вы соглашаетесь на обработку указанных
+                  данных для ответа на обращение. Всё, что вы расскажете,
                   конфиденциально.
                 </p>
               </form>

@@ -44,9 +44,6 @@ export function Header() {
           </nav>
 
           <div className="header__aside">
-            <a className="header__phone" href={`tel:+${company.phoneRaw}`}>
-              {company.phone}
-            </a>
             <a className="btn header__btn" href="#contact">
               Консультация
               <IconArrow className="icon-line btn__arrow" />
@@ -89,20 +86,11 @@ export function Header() {
           ))}
         </nav>
         <div className="menu__foot">
-          <a className="menu__contact" href={`tel:+${company.phoneRaw}`}>
-            {company.phone}
-          </a>
           <a className="menu__contact" href={`mailto:${company.email}`}>
             {company.email}
           </a>
-          <a
-            className="btn"
-            href={`https://wa.me/${company.phoneRaw}`}
-            target="_blank"
-            rel="noreferrer noopener"
-            onClick={() => setMenuOpen(false)}
-          >
-            Написать в WhatsApp
+          <a className="btn" href="#contact" onClick={() => setMenuOpen(false)}>
+            Оставить заявку
             <IconArrow className="icon-line btn__arrow" />
           </a>
         </div>
