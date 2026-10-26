@@ -1,13 +1,15 @@
 type Props = {
   /** показывать дескриптор под словесной частью */
   withTagline?: boolean
+  /** модификатор, например `logo--footer` для крупного лок-апа в подвале */
+  className?: string
   onClick?: () => void
 }
 
 /** Фирменный лок-ап: знак «A» + словесная часть, набранная Cormorant Garamond. */
-export function Logo({ withTagline = true, onClick }: Props) {
+export function Logo({ withTagline = true, className, onClick }: Props) {
   return (
-    <a className="logo" href="#hero" aria-label="Altum Legal — на главную" onClick={onClick}>
+    <a className={`logo${className ? ` ${className}` : ''}`} href="#hero" aria-label="Altum Legal — на главную" onClick={onClick}>
       <img
         className="logo__mark"
         src="/logo-mark.png"

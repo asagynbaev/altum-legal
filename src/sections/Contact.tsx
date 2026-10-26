@@ -12,18 +12,23 @@ import {
 import { company, formTopics } from '../data/content'
 
 type Errors = Partial<Record<'name' | 'phone', string>>
+/** как ушла заявка: через сервис отправки или через почтовый клиент */
+type SentVia = 'form' | 'mail'
 
 const initial = {
   name: '',
   phone: '',
   topic: formTopics[0] as string,
   message: '',
+  /** ловушка для ботов: люди это поле не видят и не заполняют */
+  honey: '',
 }
 
 export function Contact() {
   const [form, setForm] = useState(initial)
   const [errors, setErrors] = useState<Errors>({})
-  const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [sentVia, setSentVia] = useState<SentVia | null>(null)
 
   const set = (key: keyof typeof initial, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -38,6 +43,8 @@ export function Contact() {
     return next
   }
 
+  const subject = () => `Заявка с сайта — ${form.topic}`
+
   const composeText = () =>
     [
       'Заявка с сайта Altum Legal',
@@ -49,16 +56,51 @@ export function Contact() {
       .filter(Boolean)
       .join('\n')
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  /** Запасной путь: открыть почтовый клиент с уже заполненным письмом. */
+  const openMailClient = () => {
+    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(
+      subject(),
+    )}&body=${encodeURIComponent(composeText())}`
+  }
+
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (sending) return
     const found = validate()
     setErrors(found)
     if (Object.keys(found).length) return
 
-    window.location.href = `mailto:${company.email}?subject=${encodeURIComponent(
-      `Заявка с сайта — ${form.topic}`,
-    )}&body=${encodeURIComponent(composeText())}`
-    setSent(true)
+    // бот заполнил скрытое поле — ничего не отправляем, но показываем «успех»
+    if (form.honey) {
+      setSentVia('form')
+      return
+    }
+
+    setSending(true)
+    try {
+      const res = await fetch(company.formEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          _subject: subject(),
+          _template: 'table',
+          _captcha: 'false',
+          Имя: form.name.trim(),
+          Телефон: form.phone.trim(),
+          Тема: form.topic,
+          Вопрос: form.message.trim() || '—',
+        }),
+      })
+      const data: { success?: string } | null = await res.json().catch(() => null)
+      if (!res.ok || data?.success === 'false') throw new Error(`HTTP ${res.status}`)
+      setSentVia('form')
+    } catch {
+      // сервис недоступен — не теряем заявку, отдаём её почтовому клиенту
+      openMailClient()
+      setSentVia('mail')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -116,21 +158,32 @@ export function Contact() {
           </div>
 
           <Reveal className="contact__form" as="div" delay={120}>
-            {sent ? (
+            {sentVia ? (
               <div className="contact__sent">
                 <IconCheckSeal className="icon-line contact__sent-mark" />
-                <h3 className="contact__form-title">Заявка сформирована</h3>
+                <h3 className="contact__form-title">
+                  {sentVia === 'form' ? 'Заявка отправлена' : 'Заявка сформирована'}
+                </h3>
                 <p className="contact__form-note">
-                  Мы открыли окно вашего почтового клиента с готовым письмом.
-                  Если оно не появилось — напишите нам напрямую на{' '}
-                  {company.email}.
+                  {sentVia === 'form' ? (
+                    <>
+                      Спасибо! Юрист свяжется с вами в рабочее время. Если вопрос
+                      срочный — напишите нам на {company.email}.
+                    </>
+                  ) : (
+                    <>
+                      Мы открыли окно вашего почтового клиента с готовым письмом.
+                      Если оно не появилось — напишите нам напрямую на{' '}
+                      {company.email}.
+                    </>
+                  )}
                 </p>
                 <button
                   type="button"
                   className="link-underline"
                   onClick={() => {
                     setForm(initial)
-                    setSent(false)
+                    setSentVia(null)
                   }}
                 >
                   Отправить ещё одну заявку
@@ -210,16 +263,27 @@ export function Contact() {
                   <span className="field__label">Кратко о задаче</span>
                 </label>
 
-                <button className="btn btn--block" type="submit">
-                  Отправить заявку
+                {/* поле-ловушка для спам-ботов, людям не показывается */}
+                <input
+                  className="visually-hidden"
+                  type="text"
+                  name="_honey"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  value={form.honey}
+                  onChange={(e) => set('honey', e.target.value)}
+                />
+
+                <button className="btn btn--block" type="submit" disabled={sending}>
+                  {sending ? 'Отправляем…' : 'Отправить заявку'}
                   <IconArrow className="icon-line btn__arrow" />
                 </button>
 
                 <p className="contact__form-note">
-                  Заявка уходит письмом на {company.email} через ваш почтовый
-                  клиент. Нажимая кнопку, вы соглашаетесь на обработку указанных
-                  данных для ответа на обращение. Всё, что вы расскажете,
-                  конфиденциально.
+                  Заявка уходит на {company.email}. Нажимая кнопку, вы
+                  соглашаетесь на обработку указанных данных для ответа на
+                  обращение. Всё, что вы расскажете, конфиденциально.
                 </p>
               </form>
             )}

@@ -1,4 +1,5 @@
 import { Reveal } from '../components/Reveal'
+import { Logo } from '../components/Logo'
 import { company, nav, services } from '../data/content'
 
 export function Footer() {
@@ -9,15 +10,7 @@ export function Footer() {
       <div className="shell">
         <div className="footer__top">
           <Reveal className="footer__brand">
-            <img
-              className="footer__lockup"
-              src="/logo-lockup.png"
-              alt="Altum Legal"
-              width={1400}
-              height={370}
-              loading="lazy"
-              decoding="async"
-            />
+            <Logo className="logo--footer" />
             <p className="footer__tagline">
               Юридическая компания в {company.city}. Комплексное сопровождение
               бизнеса и защита интересов предпринимателей.

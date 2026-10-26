@@ -102,7 +102,8 @@
     display: flex;
   }
 
-  .burger {
+  /* .header повышает специфичность: базовое .burger { display: grid } объявлено ниже */
+  .header .burger {
     display: none;
   }
 }
@@ -312,7 +313,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__anim {
+  .hero__anim,
+  .hero__line > .hero__anim {
     opacity: 1;
     transform: none;
     animation: none !important;
@@ -1156,8 +1158,26 @@ a.contact__line:hover .contact__line-value {
   align-content: start;
 }
 
-.footer__lockup {
-  width: min(280px, 78vw);
+.logo--footer {
+  gap: 1.1rem;
+}
+
+.logo--footer .logo__mark {
+  height: 3.9rem;
+}
+
+.logo--footer .logo__word {
+  font-size: 1.55rem;
+}
+
+.logo--footer .logo__rule,
+.logo--footer .logo__word,
+.logo--footer .logo__tagline {
+  display: block;
+}
+
+.logo--footer .logo__tagline {
+  font-size: 0.6rem;
 }
 
 .footer__tagline {

@@ -8,6 +8,12 @@ export const company = {
   tagline: 'Правовая поддержка вашего бизнеса',
   city: 'Бишкек',
   email: 'consult.bishkek@gmail.com',
+  /**
+   * Куда уходит форма заявки. FormSubmit пересылает письма на email выше
+   * без собственного бэкенда. После активации адрес в URL можно заменить
+   * на псевдоним, который выдаст сервис, — см. README.
+   */
+  formEndpoint: 'https://formsubmit.co/ajax/consult.bishkek@gmail.com',
   workingHours: 'Пн — Пт, 09:00 — 18:00',
 } as const
 

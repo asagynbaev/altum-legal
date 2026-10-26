@@ -162,6 +162,11 @@
   border-color: var(--rule-gold-light);
 }
 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
 .btn--block {
   width: 100%;
 }
