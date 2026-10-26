@@ -12,7 +12,7 @@ export function Footer() {
           <Reveal className="footer__brand">
             <Logo className="logo--footer" />
             <p className="footer__tagline">
-              Юридическая компания в {company.city}. Комплексное сопровождение
+              Юридическая компания {company.cityIn}. Комплексное сопровождение
               бизнеса и защита интересов предпринимателей.
             </p>
           </Reveal>

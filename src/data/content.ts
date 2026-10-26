@@ -7,6 +7,8 @@ export const company = {
   name: 'Altum Legal',
   tagline: 'Правовая поддержка вашего бизнеса',
   city: 'Бишкек',
+  /** город в предложном падеже — для фраз вида «компания в Бишкеке» */
+  cityIn: 'в Бишкеке',
   email: 'consult.bishkek@gmail.com',
   /**
    * Куда уходит форма заявки. FormSubmit пересылает письма на email выше
